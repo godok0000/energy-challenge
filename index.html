@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>에너지 세이버 챌린지 | 숏폼 영상 공모전 접수</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0B2B26;
+    --bg-2: #0F3630;
+    --surface: #123A34;
+    --surface-2: #164740;
+    --line: #245C52;
+    --text: #F2FFF6;
+    --muted: #7FA89C;
+    --lime: #B4FF39;
+    --lime-dim: #7FC229;
+    --amber: #FF9F1C;
+    --red: #FF5C5C;
+    --radius: 18px;
+  }
+
+  *{ box-sizing: border-box; }
+
+  html, body{
+    margin:0; padding:0;
+    background: radial-gradient(120% 140% at 50% -10%, #123F38 0%, var(--bg) 55%, #071C18 100%);
+    color: var(--text);
+    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .mono{ font-family:'JetBrains Mono', monospace; }
+
+  .page{
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 36px 20px 60px;
+  }
+
+  /* ---------- Header ---------- */
+  .eyebrow{
+    display:flex; align-items:center; gap:8px;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--lime);
+    margin-bottom: 14px;
+  }
+  .eyebrow::before{
+    content:"";
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--lime);
+    box-shadow: 0 0 10px 2px rgba(180,255,57,0.7);
+    flex-shrink:0;
+  }
+
+  h1{
+    font-size: 30px;
+    line-height: 1.25;
+    font-weight: 800;
+    margin: 0 0 10px;
+    letter-spacing: -0.01em;
+  }
+  h1 span{ color: var(--lime); }
+
+  .sub{
+    color: var(--muted);
+    font-size: 14.5px;
+    line-height: 1.65;
+    margin: 0 0 28px;
+  }
+
+  .meta-row{
+    display:flex; flex-wrap: wrap;
+    gap: 8px 10px;
+    margin-bottom: 32px;
+  }
+  .meta-chip{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    color: var(--muted);
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,0.02);
+    padding: 6px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .meta-chip b{ color: var(--text); font-weight: 600; }
+
+  /* ---------- Meter (signature element) ---------- */
+  .meter-card{
+    background: linear-gradient(180deg, var(--surface-2), var(--surface));
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 22px 22px 18px;
+    margin-bottom: 22px;
+    display:flex;
+    align-items:center;
+    gap: 20px;
+  }
+  .meter-gauge{ flex-shrink:0; width: 92px; height: 92px; }
+  .meter-info{ flex:1; min-width:0; }
+  .meter-label{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .meter-value{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--text);
+    line-height:1;
+    margin-bottom: 6px;
+  }
+  .meter-value small{
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--muted);
+  }
+  .meter-hint{
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height:1.5;
+  }
+  #needle{ transform-origin: 46px 46px; transition: transform 0.5s cubic-bezier(.4,1.4,.4,1); }
+  #meterArc{ transition: stroke 0.4s ease; }
+
+  /* ---------- Form ---------- */
+  .card{
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 24px 22px;
+  }
+
+  .field{ margin-bottom: 22px; }
+  .field:last-child{ margin-bottom: 0; }
+
+  label{
+    display:flex;
+    align-items:baseline;
+    justify-content: space-between;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 9px;
+    font-weight: 600;
+  }
+  label .req{ color: var(--amber); font-weight: 700; }
+  label .ok{ color: var(--lime); font-weight: 700; font-family:'JetBrains Mono', monospace; font-size: 11px; text-transform:none; letter-spacing:0; opacity:0; transition: opacity .2s; }
+  label .ok.show{ opacity:1; }
+
+  input[type="text"]{
+    width:100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1.5px solid var(--line);
+    color: var(--text);
+    font-size: 17px;
+    font-family: inherit;
+    padding: 8px 2px 10px;
+    outline: none;
+    transition: border-color .2s;
+  }
+  input[type="text"]::placeholder{ color: #4A6B63; }
+  input[type="text"]:focus{ border-color: var(--lime); }
+  input[type="text"].filled{ border-color: var(--lime-dim); }
+
+  #empNo{ font-family:'JetBrains Mono', monospace; letter-spacing: 0.03em; }
+
+  /* focus visibility for accessibility */
+  input:focus-visible, .dropzone:focus-visible, button:focus-visible{
+    outline: 2px solid var(--lime);
+    outline-offset: 3px;
+  }
+
+  /* ---------- Upload dropzone ---------- */
+  .dropzone{
+    border: 1.5px dashed var(--line);
+    border-radius: 14px;
+    padding: 22px 16px;
+    text-align:center;
+    cursor:pointer;
+    transition: border-color .2s, background .2s;
+    background: rgba(255,255,255,0.015);
+  }
+  .dropzone:hover, .dropzone.drag{
+    border-color: var(--lime-dim);
+    background: rgba(180,255,57,0.04);
+  }
+  .dropzone.has-file{
+    border-style: solid;
+    border-color: var(--lime-dim);
+  }
+  .dropzone.checking{ opacity: 0.6; pointer-events: none; }
+  .plug-icon{ width: 34px; height:34px; margin: 0 auto 10px; display:block; color: var(--muted); }
+  .dropzone.has-file .plug-icon{ color: var(--lime); }
+  .dz-title{ font-size: 14.5px; font-weight:600; margin-bottom:4px; }
+  .dz-sub{ font-size: 12px; color: var(--muted); }
+  input[type="file"]{ display:none; }
+
+  .file-chip{
+    display:none;
+    align-items:center;
+    gap: 10px;
+    margin-top: 12px;
+    background: rgba(180,255,57,0.06);
+    border: 1px solid rgba(180,255,57,0.3);
+    border-radius: 10px;
+    padding: 10px 12px;
+  }
+  .file-chip.show{ display:flex; }
+  .file-chip .fname{ flex:1; min-width:0; font-size:13.5px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .file-chip .fsize{ font-family:'JetBrains Mono', monospace; font-size:11.5px; color: var(--muted); flex-shrink:0; }
+  .file-chip button{
+    background:none; border:none; color: var(--muted); cursor:pointer;
+    font-size: 16px; line-height:1; padding: 2px 4px;
+  }
+  .file-chip button:hover{ color: var(--red); }
+
+  /* ---------- Submit ---------- */
+  .submit-btn{
+    width:100%;
+    margin-top: 26px;
+    padding: 16px;
+    border-radius: 12px;
+    border: none;
+    background: var(--lime);
+    color: #0B2B26;
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    transition: transform .12s ease, background .2s, opacity .2s;
+    font-family: inherit;
+  }
+  .submit-btn:active{ transform: scale(0.98); }
+  .submit-btn:disabled{ background: var(--line); color: var(--muted); cursor:not-allowed; }
+
+  .error-msg{
+    font-size: 12.5px;
+    color: var(--red);
+    margin-top: 10px;
+    display:none;
+  }
+  .error-msg.show{ display:block; }
+
+  .footnote{
+    text-align:center;
+    font-size: 11.5px;
+    color: var(--muted);
+    margin-top: 22px;
+    line-height:1.6;
+  }
+
+  /* ---------- Success state ---------- */
+  .success{
+    display:none;
+    text-align:center;
+    padding: 50px 10px 20px;
+  }
+  .success.show{ display:block; }
+  .success .bulb{ width:56px; height:56px; margin: 0 auto 18px; color: var(--lime); }
+  .success h2{ font-size: 22px; margin: 0 0 10px; }
+  .success p{ color: var(--muted); font-size: 14px; line-height:1.7; margin:0 0 26px; }
+  .success .receipt{
+    text-align:left;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px 18px;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+  .success .receipt div{ display:flex; justify-content:space-between; padding: 5px 0; border-bottom: 1px dashed var(--line); }
+  .success .receipt div:last-child{ border-bottom:none; }
+  .success .receipt span{ color: var(--text); }
+  .again-btn{
+    margin-top:22px;
+    background:none;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 13px;
+    cursor:pointer;
+    font-family: inherit;
+  }
+  .again-btn:hover{ border-color: var(--lime-dim); color: var(--text); }
+
+  #formWrap.hide{ display:none; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ transition: none !important; }
+  }
+
+  @media (max-width: 380px){
+    h1{ font-size: 26px; }
+    .meter-card{ flex-direction:column; text-align:center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <div class="eyebrow">RECEIVING ENTRIES</div>
+  <h1>에너지 세이버 <span>챌린지</span></h1>
+  <p class="sub">친환경 에너지절감 활동을 담은 숏폼 영상 공모전입니다.<br/>아래 내용을 입력하고 촬영한 영상을 바로 업로드해 주세요.</p>
+
+  <div class="meta-row">
+    <div class="meta-chip">접수기간 <b>9.1 – 9.30</b></div>
+    <div class="meta-chip">대상 <b>전 임직원</b></div>
+    <div class="meta-chip">형식 <b>세로형 숏폼 · 30초 이내</b></div>
+  </div>
+
+  <!-- Signature element: energy meter that fills as the form is completed -->
+  <div class="meter-card">
+    <svg class="meter-gauge" viewBox="0 0 92 92" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="46" cy="46" r="40" stroke="#1D4B43" stroke-width="7"/>
+      <circle id="meterArc" cx="46" cy="46" r="40" stroke="#FF5C5C" stroke-width="7"
+        stroke-linecap="round"
+        stroke-dasharray="188.5"
+        stroke-dashoffset="188.5"
+        transform="rotate(-90 46 46)"/>
+      <g id="needle">
+        <line x1="46" y1="46" x2="46" y2="20" stroke="#F2FFF6" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="46" cy="46" r="4.5" fill="#F2FFF6"/>
+      </g>
+    </svg>
+    <div class="meter-info">
+      <div class="meter-label">제출 준비도</div>
+      <div class="meter-value"><span id="meterPct">0</span><small>% 완료</small></div>
+      <div class="meter-hint" id="meterHint">이름부터 순서대로 입력해 주세요.</div>
+    </div>
+  </div>
+
+  <div id="formWrap">
+    <div class="card">
+
+      <div class="field">
+        <label for="name">이름 <span class="req">*</span><span class="ok" id="ok-name">✓ 확인됨</span></label>
+        <input type="text" id="name" placeholder="홍길동" autocomplete="name" />
+      </div>
+
+      <div class="field">
+        <label for="empNo">사번 <span class="req">*</span><span class="ok" id="ok-empNo">✓ 확인됨</span></label>
+        <input type="text" id="empNo" class="mono" placeholder="예: 20231234" inputmode="numeric" />
+      </div>
+
+      <div class="field">
+        <label for="title">영상 제목 <span class="req">*</span><span class="ok" id="ok-title">✓ 확인됨</span></label>
+        <input type="text" id="title" placeholder="예: 우리 팀의 소등 습관" />
+      </div>
+
+      <div class="field">
+        <label>영상 업로드 <span class="req">*</span><span class="ok" id="ok-file">✓ 확인됨</span></label>
+        <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="영상 파일 선택">
+          <svg class="plug-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M23 7l-7 5 7 5V7z"/>
+            <rect x="1" y="5" width="15" height="14" rx="2"/>
+          </svg>
+          <div class="dz-title">탭하여 영상 선택 또는 촬영</div>
+          <div class="dz-sub">MP4·MOV · 30초 이내 · 최대 90MB</div>
+          <input type="file" id="fileInput" accept="video/*" capture="environment" />
+        </div>
+        <div class="file-chip" id="fileChip">
+          <span class="fname mono" id="fileName"></span>
+          <span class="fsize mono" id="fileSize"></span>
+          <button type="button" id="removeFile" aria-label="파일 제거">✕</button>
+        </div>
+      </div>
+
+      <button class="submit-btn" id="submitBtn" disabled>출품하기</button>
+      <div class="error-msg" id="errorMsg">모든 항목을 입력하고 영상을 첨부해 주세요.</div>
+    </div>
+
+    <p class="footnote">제출된 정보와 영상은 공모전 심사 목적으로만 사용되며,<br/>심사 종료 후 별도 고지에 따라 처리됩니다.</p>
+  </div>
+
+  <div class="success" id="successView">
+    <svg class="bulb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <path d="M8 12l3 3 5-6" />
+    </svg>
+    <h2>접수가 완료되었습니다</h2>
+    <p>제출해 주셔서 감사합니다.<br/>결과는 사내 공지를 통해 안내될 예정입니다.</p>
+    <div class="receipt">
+      <div><span>이름</span> <span id="rName"></span></div>
+      <div><span>사번</span> <span id="rEmp"></span></div>
+      <div><span>영상 제목</span> <span id="rTitle"></span></div>
+      <div><span>파일</span> <span id="rFile"></span></div>
+    </div>
+    <button class="again-btn" id="againBtn">다른 영상 제출하기</button>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  // ---------------------------------------------------------------
+  // Google Apps Script 웹 앱 배포 후 발급받은 URL을 여기에 붙여넣으세요.
+  // 예: https://script.google.com/macros/s/AKfycb.../exec
+  // ---------------------------------------------------------------
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxhD8U0KdrbZOXJodMfRX_Us9BakBE8b663XwvApxB34-938mKk9CgtJex20LKoU8slMg/exec';
+  const MAX_FILE_MB = 90; // Apps Script로 안정적으로 전송 가능한 대략적인 상한
+
+  const nameEl = document.getElementById('name');
+  const empEl = document.getElementById('empNo');
+  const titleEl = document.getElementById('title');
+  const fileInput = document.getElementById('fileInput');
+  const dropzone = document.getElementById('dropzone');
+  const fileChip = document.getElementById('fileChip');
+  const fileNameEl = document.getElementById('fileName');
+  const fileSizeEl = document.getElementById('fileSize');
+  const removeFileBtn = document.getElementById('removeFile');
+  const submitBtn = document.getElementById('submitBtn');
+  const errorMsg = document.getElementById('errorMsg');
+  const needle = document.getElementById('needle');
+  const meterArc = document.getElementById('meterArc');
+  const meterPct = document.getElementById('meterPct');
+  const meterHint = document.getElementById('meterHint');
+  const formWrap = document.getElementById('formWrap');
+  const successView = document.getElementById('successView');
+
+  let selectedFile = null;
+
+  const hints = [
+    '이름부터 순서대로 입력해 주세요.',
+    '사번을 입력해 주세요.',
+    '영상 제목을 입력해 주세요.',
+    '마지막으로 영상을 업로드해 주세요.',
+    '모든 항목이 준비되었습니다!'
+  ];
+
+  const ARC_LEN = 188.5;
+  const colors = ['#FF5C5C', '#FF9F1C', '#FFD23F', '#B4FF39'];
+
+  function fmtSize(bytes){
+    if(bytes < 1024*1024) return (bytes/1024).toFixed(0) + ' KB';
+    return (bytes/(1024*1024)).toFixed(1) + ' MB';
+  }
+
+  function updateMeter(){
+    const checks = [nameEl.value.trim(), empEl.value.trim(), titleEl.value.trim(), selectedFile];
+    const done = checks.filter(Boolean).length;
+    const pct = Math.round((done/4)*100);
+
+    meterPct.textContent = pct;
+    meterHint.textContent = hints[done];
+
+    const offset = ARC_LEN - (ARC_LEN * pct/100);
+    meterArc.style.strokeDashoffset = offset;
+    meterArc.style.stroke = colors[Math.min(done,3)] || colors[3];
+
+    const angle = -90 + (pct/100 * 270);
+    needle.style.transform = 'rotate(' + angle + 'deg)';
+
+    ['name','empNo','title','file'].forEach((key, i) => {
+      const okEl = document.getElementById('ok-' + key);
+      const isDone = i === 0 ? nameEl.value.trim() : i === 1 ? empEl.value.trim() : i === 2 ? titleEl.value.trim() : selectedFile;
+      okEl.classList.toggle('show', !!isDone);
+    });
+
+    [nameEl, empEl, titleEl].forEach(el => el.classList.toggle('filled', !!el.value.trim()));
+
+    submitBtn.disabled = done < 4;
+    if(done === 4) errorMsg.classList.remove('show');
+  }
+
+  [nameEl, empEl, titleEl].forEach(el => el.addEventListener('input', updateMeter));
+
+  dropzone.addEventListener('click', () => fileInput.click());
+  dropzone.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); fileInput.click(); }
+  });
+
+  const MAX_DURATION_SEC = 30;
+
+  function getVideoDuration(file){
+    return new Promise((resolve, reject) => {
+      const videoEl = document.createElement('video');
+      videoEl.preload = 'metadata';
+      videoEl.onloadedmetadata = () => {
+        URL.revokeObjectURL(videoEl.src);
+        resolve(videoEl.duration);
+      };
+      videoEl.onerror = () => reject(new Error('영상 정보를 읽을 수 없습니다.'));
+      videoEl.src = URL.createObjectURL(file);
+    });
+  }
+
+  fileInput.addEventListener('change', async (e) => {
+    const f = e.target.files[0];
+    if(!f) return;
+
+    if(f.size > MAX_FILE_MB * 1024 * 1024){
+      errorMsg.textContent = `파일 용량이 너무 큽니다 (${fmtSize(f.size)}). ${MAX_FILE_MB}MB 이하로 압축해서 다시 업로드해 주세요.`;
+      errorMsg.classList.add('show');
+      fileInput.value = '';
+      return;
+    }
+
+    dropzone.classList.add('checking');
+    let duration = null;
+    try {
+      duration = await getVideoDuration(f);
+    } catch (err) {
+      // 브라우저가 길이를 읽지 못하는 경우(코덱/환경 문제) 업로드를 막지 않고 진행합니다.
+      duration = null;
+    }
+    dropzone.classList.remove('checking');
+
+    if(duration !== null && duration > MAX_DURATION_SEC + 0.5){
+      errorMsg.textContent = `영상 길이가 ${Math.round(duration)}초입니다. ${MAX_DURATION_SEC}초 이내로 편집해서 다시 업로드해 주세요.`;
+      errorMsg.classList.add('show');
+      fileInput.value = '';
+      return;
+    }
+
+    errorMsg.classList.remove('show');
+    errorMsg.textContent = '모든 항목을 입력하고 영상을 첨부해 주세요.';
+
+    selectedFile = f;
+    fileNameEl.textContent = f.name;
+    fileSizeEl.textContent = fmtSize(f.size) + (duration !== null ? ' · ' + Math.round(duration) + '초' : '');
+    fileChip.classList.add('show');
+    dropzone.classList.add('has-file');
+    updateMeter();
+  });
+
+  removeFileBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    selectedFile = null;
+    fileInput.value = '';
+    fileChip.classList.remove('show');
+    dropzone.classList.remove('has-file');
+    updateMeter();
+  });
+
+  function fileToBase64(file){
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        // "data:video/mp4;base64,AAAA..." 에서 base64 부분만 추출
+        const result = reader.result;
+        const base64 = result.substring(result.indexOf(',') + 1);
+        resolve(base64);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  submitBtn.addEventListener('click', async () => {
+    if(!nameEl.value.trim() || !empEl.value.trim() || !titleEl.value.trim() || !selectedFile){
+      errorMsg.classList.add('show');
+      return;
+    }
+
+    if(SCRIPT_URL.indexOf('PASTE_YOUR') === 0){
+      errorMsg.textContent = '아직 업로드 서버(Apps Script) 주소가 연결되지 않았습니다. 관리자에게 문의해 주세요.';
+      errorMsg.classList.add('show');
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = '업로드 중... (영상 용량에 따라 다소 시간이 걸릴 수 있어요)';
+    errorMsg.classList.remove('show');
+
+    try {
+      const base64 = await fileToBase64(selectedFile);
+
+      const payload = {
+        name: nameEl.value.trim(),
+        empNo: empEl.value.trim(),
+        title: titleEl.value.trim(),
+        fileName: selectedFile.name,
+        fileType: selectedFile.type || 'video/mp4',
+        fileData: base64
+      };
+
+      // Apps Script와의 CORS 사전요청(preflight) 문제를 피하기 위해
+      // text/plain 으로 전송하고, 서버 쪽에서 JSON.parse 로 읽습니다.
+      const res = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      });
+
+      const json = await res.json();
+      if(json.result !== 'success') throw new Error(json.message || '업로드 실패');
+
+      document.getElementById('rName').textContent = nameEl.value.trim();
+      document.getElementById('rEmp').textContent = empEl.value.trim();
+      document.getElementById('rTitle').textContent = titleEl.value.trim();
+      document.getElementById('rFile').textContent = selectedFile.name + ' (' + fmtSize(selectedFile.size) + ')';
+
+      formWrap.classList.add('hide');
+      successView.classList.add('show');
+
+    } catch (err) {
+      errorMsg.textContent = '업로드 중 오류가 발생했습니다: ' + err.message + ' (다시 시도해 주세요)';
+      errorMsg.classList.add('show');
+      submitBtn.disabled = false;
+      submitBtn.textContent = '출품하기';
+    }
+  });
+
+  document.getElementById('againBtn').addEventListener('click', () => {
+    nameEl.value = ''; empEl.value = ''; titleEl.value = '';
+    selectedFile = null; fileInput.value = '';
+    fileChip.classList.remove('show');
+    dropzone.classList.remove('has-file');
+    submitBtn.textContent = '출품하기';
+    successView.classList.remove('show');
+    formWrap.classList.remove('hide');
+    updateMeter();
+  });
+
+  updateMeter();
+})();
+</script>
+
+</body>
+</html>
