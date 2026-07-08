@@ -682,14 +682,17 @@
 
       // Apps Script와의 CORS 사전요청(preflight) 문제를 피하기 위해
       // text/plain 으로 전송하고, 서버 쪽에서 JSON.parse 로 읽습니다.
-      const res = await fetch(SCRIPT_URL, {
+      // Apps Script 웹 앱은 응답 과정에서 리다이렉트를 거치기 때문에,
+      // 다른 도메인(github.io 등)에서 fetch로 응답 내용을 직접 읽으려 하면
+      // 브라우저 보안 정책(CORS)에 막혀 "Failed to fetch" 오류가 납니다.
+      // no-cors 모드로 보내면 요청 자체는 정상적으로 서버에 전달되어 실행되고,
+      // 다만 응답 내용은 읽을 수 없게 됩니다 (성공 여부 확인 불가, 요청 자체는 처리됨).
+      await fetch(SCRIPT_URL, {
         method: 'POST',
+        mode: 'no-cors',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify(payload)
       });
-
-      const json = await res.json();
-      if(json.result !== 'success') throw new Error(json.message || '업로드 실패');
 
       document.getElementById('rName').textContent = nameEl.value.trim();
       document.getElementById('rEmp').textContent = empEl.value.trim();
