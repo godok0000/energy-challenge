@@ -461,7 +461,8 @@
             <rect x="1" y="5" width="15" height="14" rx="2"/>
           </svg>
           <div class="dz-title">탭하여 영상 선택 또는 촬영</div>
-          <div class="dz-sub">MP4·MOV · 30초 이내 · 최대 60MB</div>
+          <div class="dz-sub">MP4·MOV · 30초 이내 · 최대 80MB</div>
+          <div class="dz-sub" style="margin-top:2px;">💡 화질은 1080p(HD) 권장 — 4K는 용량이 커서 업로드가 실패할 수 있어요</div>
           <input type="file" id="fileInput" accept="video/*" />
         </div>
         <div class="file-chip" id="fileChip">
@@ -503,7 +504,7 @@
   // 예: https://script.google.com/macros/s/AKfycb.../exec
   // ---------------------------------------------------------------
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyyD_Yb-x_v3H-rq70WK9f1RZICkBV_Tzw6SsRjvfqlE_PKUXNP4UbP5-b7M00yuv_w/exec';
-  const MAX_FILE_MB = 60; // Apps Script로 안정적으로 전송 가능한 대략적인 상한
+  const MAX_FILE_MB = 80; // Apps Script로 안정적으로 전송 가능한 대략적인 상한
 
   const nameEl = document.getElementById('name');
   const empEl = document.getElementById('empNo');
