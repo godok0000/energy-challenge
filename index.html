@@ -11,15 +11,15 @@
 <style>
   :root{
     --bg: #C9E4C0;
-    --bg-2: #F4FAF1;
+    --bg-2: #F4FBF1;
     --surface: #FFFFFF;
     --surface-2: #F1F8ED;
     --line: #BFDDB6;
-    --text: #17311F;
-    --muted: #4C6B53;
-    --lime: #43A047;
-    --lime-dim: #2E7D32;
-    --amber: #E8932A;
+    --text: #12321F;
+    --muted: #3E5B48;
+    --lime: #2F7A50;
+    --lime-dim: #21593C;
+    --amber: #FFB703;
     --red: #E1584F;
     --radius: 18px;
   }
@@ -28,7 +28,7 @@
 
   html, body{
     margin:0; padding:0;
-    background: radial-gradient(120% 140% at 50% -10%, #E4F3DE 0%, var(--bg) 50%, #8FC28C 100%);
+    background: radial-gradient(120% 140% at 50% -10%, #EAF7EC 0%, var(--bg) 50%, #6FBE8C 100%);
     color: var(--text);
     font-family: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
     min-height: 100vh;
@@ -79,7 +79,7 @@
     width: 7px; height: 7px;
     border-radius: 50%;
     background: var(--lime);
-    box-shadow: 0 0 10px 2px rgba(67,160,71,0.55);
+    box-shadow: 0 0 10px 2px rgba(47,122,80,0.55);
     flex-shrink:0;
   }
 
@@ -111,7 +111,7 @@
     font-weight: 500;
     color: var(--muted);
     border: 1px solid var(--line);
-    background: rgba(67,160,71,0.07);
+    background: rgba(47,122,80,0.07);
     border-radius: 999px;
     white-space: nowrap;
   }
@@ -127,7 +127,7 @@
     display:flex;
     align-items:center;
     gap: 20px;
-    box-shadow: 0 2px 16px rgba(31,61,42,0.05);
+    box-shadow: 0 6px 24px rgba(18,50,31,0.08);
   }
   .meter-gauge{ flex-shrink:0; width: 92px; height: 92px; }
   .meter-info{ flex:1; min-width:0; }
@@ -168,7 +168,7 @@
     border: 1px solid var(--line);
     border-radius: var(--radius);
     padding: 24px 22px;
-    box-shadow: 0 2px 16px rgba(31,61,42,0.05);
+    box-shadow: 0 6px 24px rgba(18,50,31,0.08);
   }
 
   .field{ margin-bottom: 22px; }
@@ -221,7 +221,7 @@
   input[type="text"]:focus{
     border-color: var(--lime);
     background: var(--surface);
-    box-shadow: 0 0 0 3px rgba(67,160,71,0.14);
+    box-shadow: 0 0 0 3px rgba(47,122,80,0.14);
   }
   input[type="text"].filled{ border-color: var(--lime-dim); background: var(--surface); }
 
@@ -241,11 +241,11 @@
     text-align:center;
     cursor:pointer;
     transition: border-color .2s, background .2s;
-    background: rgba(67,160,71,0.035);
+    background: rgba(47,122,80,0.035);
   }
   .dropzone:hover, .dropzone.drag{
     border-color: var(--lime-dim);
-    background: rgba(67,160,71,0.08);
+    background: rgba(47,122,80,0.08);
   }
   .dropzone.has-file{
     border-style: solid;
@@ -263,8 +263,8 @@
     align-items:center;
     gap: 10px;
     margin-top: 12px;
-    background: rgba(67,160,71,0.08);
-    border: 1px solid rgba(67,160,71,0.3);
+    background: rgba(47,122,80,0.08);
+    border: 1px solid rgba(47,122,80,0.3);
     border-radius: 10px;
     padding: 10px 12px;
   }
@@ -284,17 +284,18 @@
     padding: 16px;
     border-radius: 12px;
     border: none;
-    background: var(--lime);
+    background: linear-gradient(135deg, var(--lime) 0%, var(--lime-dim) 100%);
     color: #FFFFFF;
     font-size: 16px;
     font-weight: 800;
     letter-spacing: 0.01em;
     cursor: pointer;
-    transition: transform .12s ease, background .2s, opacity .2s;
+    box-shadow: 0 8px 20px rgba(33,89,60,0.28);
+    transition: transform .12s ease, box-shadow .2s, opacity .2s;
     font-family: inherit;
   }
-  .submit-btn:active{ transform: scale(0.98); }
-  .submit-btn:disabled{ background: var(--line); color: var(--muted); cursor:not-allowed; }
+  .submit-btn:active{ transform: scale(0.98); box-shadow: 0 4px 12px rgba(33,89,60,0.22); }
+  .submit-btn:disabled{ background: var(--line); color: var(--muted); box-shadow:none; cursor:not-allowed; }
 
   .error-msg{
     font-size: 14.5px;
@@ -368,16 +369,16 @@
 
 <div class="bg-tree" aria-hidden="true">
   <svg viewBox="0 0 400 460" xmlns="http://www.w3.org/2000/svg">
-    <path d="M198 460 L198 260" stroke="#17311F" stroke-width="14" stroke-linecap="round"/>
-    <path d="M198 320 C170 300 150 300 128 275" stroke="#17311F" stroke-width="9" stroke-linecap="round" fill="none"/>
-    <path d="M198 300 C226 282 246 282 268 260" stroke="#17311F" stroke-width="9" stroke-linecap="round" fill="none"/>
-    <path d="M198 260 C160 250 140 230 130 200" stroke="#17311F" stroke-width="8" stroke-linecap="round" fill="none"/>
-    <path d="M198 250 C236 240 256 220 266 190" stroke="#17311F" stroke-width="8" stroke-linecap="round" fill="none"/>
-    <circle cx="198" cy="150" r="118" fill="#17311F"/>
-    <circle cx="115" cy="200" r="78" fill="#17311F"/>
-    <circle cx="285" cy="205" r="82" fill="#17311F"/>
-    <circle cx="150" cy="95" r="70" fill="#17311F"/>
-    <circle cx="255" cy="90" r="66" fill="#17311F"/>
+    <path d="M198 460 L198 260" stroke="#12321F" stroke-width="14" stroke-linecap="round"/>
+    <path d="M198 320 C170 300 150 300 128 275" stroke="#12321F" stroke-width="9" stroke-linecap="round" fill="none"/>
+    <path d="M198 300 C226 282 246 282 268 260" stroke="#12321F" stroke-width="9" stroke-linecap="round" fill="none"/>
+    <path d="M198 260 C160 250 140 230 130 200" stroke="#12321F" stroke-width="8" stroke-linecap="round" fill="none"/>
+    <path d="M198 250 C236 240 256 220 266 190" stroke="#12321F" stroke-width="8" stroke-linecap="round" fill="none"/>
+    <circle cx="198" cy="150" r="118" fill="#12321F"/>
+    <circle cx="115" cy="200" r="78" fill="#12321F"/>
+    <circle cx="285" cy="205" r="82" fill="#12321F"/>
+    <circle cx="150" cy="95" r="70" fill="#12321F"/>
+    <circle cx="255" cy="90" r="66" fill="#12321F"/>
   </svg>
 </div>
 
@@ -404,8 +405,8 @@
         stroke-dashoffset="188.5"
         transform="rotate(-90 46 46)"/>
       <g id="needle">
-        <line x1="46" y1="46" x2="46" y2="20" stroke="#1F3D2A" stroke-width="2.5" stroke-linecap="round"/>
-        <circle cx="46" cy="46" r="4.5" fill="#1F3D2A"/>
+        <line x1="46" y1="46" x2="46" y2="20" stroke="#12321F" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="46" cy="46" r="4.5" fill="#12321F"/>
       </g>
     </svg>
     <div class="meter-info">
@@ -535,7 +536,7 @@
   ];
 
   const ARC_LEN = 188.5;
-  const colors = ['#E1584F', '#E8932A', '#F2C230', '#43A047'];
+  const colors = ['#E1584F', '#FFB703', '#F2C230', '#2F7A50'];
 
   function fmtSize(bytes){
     if(bytes < 1024*1024) return (bytes/1024).toFixed(0) + ' KB';
